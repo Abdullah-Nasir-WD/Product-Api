@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product-Api//Detail</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1 id="head">More Detail..</h1>
+
+    <a href="./index.html"><== Go back</a>
+
+    <div class="container">
+
+    </div>
+
+    <div class="reviews">
+
+    </div>
+
+    <script>
+        console.log("Hello World..!");
+
+        const div = document.querySelector(".container");
+        const reviews = document.querySelector(".reviews");
+
+        const data = localStorage.getItem(`id`)
+        console.log(data);
+
+        fetch(`https://dummyjson.com/products/${data}`)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+
+                div.innerHTML = `
+            <div class="result-card">
+
+
+                <div class="p-right">
+                    <img src=${res.thumbnail} alt="">
+                    <button class="order-btn" onclick="order()">Order Now</button>
+                </div>    
+                    <h1>${res.title}</h1>
+                    <h1 class="bg-green">$${res.price}</h1>
+                `
+
+                    res.reviews.map(item => {
+                    reviews.innerHTML += `
+                    <h3>Rating ${item.rating}</h3>
+                    <h3>Name ${item.reviewerName}</h3>
+                    
+                    
+            </div>
+                    `
+                })
+            })
+            .catch(err => console.log(err))
+
+            function order() {
+
+                Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be order this item ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, order now !"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                Swal.fire({
+                title: "Thanks For Shopping!",
+                text: "Your item ordered successfully",
+                icon: "success"
+            });
+        }
+        });
+
+        }
+
+        
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+</html>
